@@ -7,7 +7,7 @@ namespace FinancialAnalyticsProcessor.Infrastructure.Data
     {
         public TransactionDbContext(DbContextOptions<TransactionDbContext> options) : base(options) { }
 
-        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Infrastructure.DbEntities.Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

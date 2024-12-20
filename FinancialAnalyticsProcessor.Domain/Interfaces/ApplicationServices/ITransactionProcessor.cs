@@ -4,9 +4,9 @@ namespace FinancialAnalyticsProcessor.Domain.Interfaces.ApplicationServices
 {
     public interface ITransactionProcessor
     {
-        Task ProcessTransactionsAsync(IEnumerable<Transaction> transactions);
-        Task<dynamic> PerformAnalysisAsync();
-        Task SaveReportAsync(dynamic report, string outputPath);
+        public Task ProcessTransactionsAsync(IEnumerable<Transaction> transactions);
+        public Task<dynamic> PerformAnalysisAsync();
+        public Task SaveReportAsync(dynamic report, string outputPath);
 
     }
 }
