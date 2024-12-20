@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FinancialAnalyticsProcessor.Application\FinancialAnalyticsProcessor.Application.csproj" />
     <ProjectReference Include="..\FinancialAnalyticsProcessor.Infrastructure\FinancialAnalyticsProcessor.Infrastructure.csproj" />
   </ItemGroup>
 
