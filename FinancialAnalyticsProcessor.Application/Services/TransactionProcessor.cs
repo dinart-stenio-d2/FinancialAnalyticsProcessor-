@@ -37,7 +37,7 @@ namespace FinancialAnalyticsProcessor.Application.Services
             if (transactions == null || !transactions.Any())
             {
                 _logger.LogWarning("No transactions provided for processing.");
-                throw new ArgumentException("No transactions to process.");
+                throw new ValidationException("No transactions to process.");
             }
 
             try
