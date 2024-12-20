@@ -4,6 +4,7 @@ using FinancialAnalyticsProcessor.Domain.Interfaces.Repositories;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
+
 namespace FinancialAnalyticsProcessor.Application.Services
 {
     public class TransactionProcessor : ITransactionProcessor
@@ -106,5 +107,6 @@ namespace FinancialAnalyticsProcessor.Application.Services
                 throw;
             }
         }
+
     }
 }
