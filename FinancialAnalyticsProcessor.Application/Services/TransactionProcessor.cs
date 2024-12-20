@@ -116,6 +116,13 @@ namespace FinancialAnalyticsProcessor.Application.Services
             try
             {
                 var json = JsonConvert.SerializeObject(report, Formatting.Indented);
+
+                if (File.Exists(outputPath))
+                {
+                    _logger.LogWarning("File already exists at {OutputPath}. Overwriting the file.", outputPath);
+                    File.Delete(outputPath);
+                }
+
                 await File.WriteAllTextAsync(outputPath, json);
 
                 _logger.LogInformation("Report saved successfully to {OutputPath}.", outputPath);
