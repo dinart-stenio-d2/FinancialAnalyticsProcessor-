@@ -1,6 +1,6 @@
 ﻿using FinancialAnalyticsProcessor.Domain.Entities;
 
-namespace FinancialAnalyticsProcessor.Domain
+namespace FinancialAnalyticsProcessor.Domain.Interfaces
 {
     public interface ICsvTransactionLoader
     {

@@ -1,7 +1,7 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
-using FinancialAnalyticsProcessor.Domain;
 using FinancialAnalyticsProcessor.Domain.Entities;
+using FinancialAnalyticsProcessor.Domain.Interfaces;
 using System.Globalization;
 
 namespace FinancialAnalyticsProcessor.Infrastructure.Services
@@ -17,7 +17,7 @@ namespace FinancialAnalyticsProcessor.Infrastructure.Services
                 Delimiter = ","
             });
 
-            // A leitura de CSV deve ser feita de forma assíncrona
+
             var records = await Task.Run(() => csv.GetRecords<Transaction>().ToList());
             return records;
         }
