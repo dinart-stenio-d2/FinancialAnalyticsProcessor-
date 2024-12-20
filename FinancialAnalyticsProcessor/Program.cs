@@ -2,10 +2,13 @@ using AutoMapper;
 using FinancialAnalyticsProcessor.Application.Services;
 using FinancialAnalyticsProcessor.Domain.Interfaces.ApplicationServices;
 using FinancialAnalyticsProcessor.Domain.Interfaces.Repositories;
+using FinancialAnalyticsProcessor.Domain.Validations;
 using FinancialAnalyticsProcessor.Infrastructure.Data;
 using FinancialAnalyticsProcessor.Infrastructure.Repositories.Generic;
 using FinancialAnalyticsProcessor.Mappings;
 using FinancialAnalyticsProcessor.Worker.Jobs;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Hangfire;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -15,17 +18,24 @@ using Serilog.Events;
 var builder = Host.CreateDefaultBuilder(args)
     .UseSerilog((context, services, configuration) =>
     {
-       
+        // Configura o Serilog para logar no console
         configuration
-            .MinimumLevel.Debug() 
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning) 
-            .Enrich.FromLogContext() 
-            .WriteTo.Console(); 
+            .MinimumLevel.Debug()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+            .Enrich.FromLogContext()
+            .WriteTo.Console();
     })
     .ConfigureServices((context, services) =>
     {
+        // Configuração do DbContext
         services.AddDbContext<TransactionDbContext>(options =>
             options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection")));
+
+        // FluentValidation Configuration
+        services.AddValidatorsFromAssemblyContaining<TransactionValidator>(); 
+        services.AddValidatorsFromAssemblyContaining<TransactionListValidator>(); 
+        services.AddFluentValidationAutoValidation(); 
+        services.AddFluentValidationClientsideAdapters(); 
 
         // Configuração do AutoMapper
         var mappings = new MapperConfiguration(cfg =>

@@ -2,6 +2,7 @@
 using FinancialAnalyticsProcessor.Domain.Entities;
 using FinancialAnalyticsProcessor.Domain.Interfaces.ApplicationServices;
 using FinancialAnalyticsProcessor.Domain.Interfaces.Repositories;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -13,12 +14,20 @@ namespace FinancialAnalyticsProcessor.Application.Services
         private readonly IRepository<Infrastructure.DbEntities.Transaction> _repository;
         private readonly ILogger<TransactionProcessor> _logger;
         private readonly IMapper _mapper;
+        private readonly IValidator<Transaction> _transactionValidator;
+        private readonly IValidator<IEnumerable<Transaction>> _transactionListValidator;
 
-        public TransactionProcessor(IRepository<Infrastructure.DbEntities.Transaction> repository, ILogger<TransactionProcessor> logger , IMapper mapper)
+        public TransactionProcessor(IRepository<Infrastructure.DbEntities.Transaction> repository, 
+            ILogger<TransactionProcessor> logger , 
+            IMapper mapper,
+            IValidator<Transaction> transactionValidator,
+            IValidator<IEnumerable<Transaction>> transactionListValidator)
         {
             _repository = repository;
             _logger = logger;
-            _mapper = mapper;   
+            _mapper = mapper;
+            _transactionValidator = transactionValidator;   
+            _transactionListValidator = transactionListValidator;   
         }
 
         public async Task ProcessTransactionsAsync(IEnumerable<Transaction> transactions)
@@ -36,7 +45,10 @@ namespace FinancialAnalyticsProcessor.Application.Services
                 var transactionCount = transactions.Count();
                 _logger.LogInformation("Processing {TransactionCount} transactions.", transactionCount);
 
-                //TODO Validate transactions using fleunt validations 
+                var validationResult = await _transactionListValidator.ValidateAsync(transactions);
+                
+                if (!validationResult.IsValid)
+                    throw new ValidationException(validationResult.Errors);
 
                 var transactionsTobeSaved = _mapper.Map<IEnumerable<Infrastructure.DbEntities.Transaction>>(transactions);
 
