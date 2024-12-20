@@ -4,6 +4,7 @@ namespace FinancialAnalyticsProcessor.Domain.Entities
 {
     public class Transaction : Entity, IAggregateRoot  
     {
+        public Guid TransactionId { get; set; }
         public Guid UserId { get; set; }
         public DateTime Date { get; set; }
         public decimal Amount { get; set; }

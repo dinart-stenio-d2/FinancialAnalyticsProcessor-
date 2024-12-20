@@ -7,11 +7,7 @@ namespace FinancialAnalyticsProcessor.Mappings
     {
         public TransactionMappingProfile()
         {
-
-            CreateMap<Transaction, Infrastructure.DbEntities.Transaction>()
-                .ForMember(dest => dest.TransactionId, opt => opt.MapFrom(src => src.Id)).ReverseMap();
-
-
+            CreateMap<Transaction, Infrastructure.DbEntities.Transaction>().ReverseMap();
             CreateMap<IEnumerable<Transaction>, IEnumerable<Infrastructure.DbEntities.Transaction>>().ReverseMap();
         }
     }

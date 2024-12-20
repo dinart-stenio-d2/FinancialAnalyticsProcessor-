@@ -6,24 +6,24 @@ namespace FinancialAnalyticsProcessor.Core.Domain.DomainObjects
 {
     public abstract class Entity
     {
-        public Guid Id { get; set; }
+        //public Guid Id { get; set; }
         public bool Valid { get; private set; }
         public bool Invalid => !Valid;
 
         public ValidationResult? ValidationResult { get; private set; }
 
-        protected Entity(string idParam = null)
-        {
-            if (string.IsNullOrEmpty(idParam))
-            {
-                Id = Guid.NewGuid();
-            }
-            else
-            {
-                Id = new Guid(idParam);
-            }
+        //protected Entity(string idParam = null)
+        //{
+        //    if (string.IsNullOrEmpty(idParam))
+        //    {
+        //        Id = Guid.NewGuid();
+        //    }
+        //    else
+        //    {
+        //        Id = new Guid(idParam);
+        //    }
 
-        }
+        //}
 
         /// <summary>
         /// Notification Pattern Generic Method
@@ -57,24 +57,24 @@ namespace FinancialAnalyticsProcessor.Core.Domain.DomainObjects
         /// </summary>
         /// <param name="obj"></param>
         /// <returns>true or false</returns>
-        public override bool Equals(object? obj)
-        {
-            var compareTo = obj as Entity;
+        //public override bool Equals(object? obj)
+        //{
+        //    var compareTo = obj as Entity;
 
-            if (ReferenceEquals(this, compareTo)) return true;
-            if (ReferenceEquals(null, compareTo)) return false;
+        //    if (ReferenceEquals(this, compareTo)) return true;
+        //    if (ReferenceEquals(null, compareTo)) return false;
 
-            return Id.Equals(compareTo.Id);
-        }
+        //    return Id.Equals(compareTo.Id);
+        //}
 
         /// <summary>
         /// To comparer the has code of one class
         /// HashCode is a exclusive code of the class 
         /// </summary>
         /// <returns></returns>
-        public override int GetHashCode()
-        {
-            return (GetType().GetHashCode() * 907) + Id.GetHashCode();
-        }
+        //public override int GetHashCode()
+        //{
+        //    return (GetType().GetHashCode() * 907) + Id.GetHashCode();
+        //}
     }
 }

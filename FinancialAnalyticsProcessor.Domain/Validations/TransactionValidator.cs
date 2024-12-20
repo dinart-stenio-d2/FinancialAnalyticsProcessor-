@@ -19,15 +19,18 @@ namespace FinancialAnalyticsProcessor.Domain.Validations
 
             RuleFor(t => t.Amount)
                 .NotEmpty().WithMessage("Amount is required.")
-                .PrecisionScale(18, 2, true).WithMessage("Amount must have up to 18 digits and 2 decimal places."); // Substituído
+                .PrecisionScale(18, 2, true).WithMessage("Amount must have up to 18 digits and 2 decimal places."); 
 
             RuleFor(t => t.Category)
                 .NotEmpty().WithMessage("Category is required.")
                 .MaximumLength(100).WithMessage("Category must not exceed 100 characters.");
 
             RuleFor(t => t.Description)
-                .NotEmpty().WithMessage("Description is required.")
-                .MaximumLength(255).WithMessage("Description must not exceed 255 characters.");
+              .NotEmpty()
+              .WithMessage(t => $"Description cannot be null or empty. Transaction ID: |{t.TransactionId}|")
+              .MaximumLength(255)
+              .WithMessage(t => $"Description must not exceed 255 characters. Transaction ID: |{t.TransactionId}|");
+
 
             RuleFor(t => t.Merchant)
                 .NotEmpty().WithMessage("Merchant is required.")
