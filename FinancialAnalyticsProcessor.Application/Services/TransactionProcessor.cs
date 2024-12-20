@@ -1,4 +1,5 @@
-﻿using FinancialAnalyticsProcessor.Domain.Entities;
+﻿using AutoMapper;
+using FinancialAnalyticsProcessor.Domain.Entities;
 using FinancialAnalyticsProcessor.Domain.Interfaces.ApplicationServices;
 using FinancialAnalyticsProcessor.Domain.Interfaces.Repositories;
 using Microsoft.Extensions.Logging;
@@ -9,13 +10,15 @@ namespace FinancialAnalyticsProcessor.Application.Services
 {
     public class TransactionProcessor : ITransactionProcessor
     {
-        private readonly IRepository<Transaction> _repository;
+        private readonly IRepository<Infrastructure.DbEntities.Transaction> _repository;
         private readonly ILogger<TransactionProcessor> _logger;
+        private readonly IMapper _mapper;
 
-        public TransactionProcessor(IRepository<Transaction> repository, ILogger<TransactionProcessor> logger)
+        public TransactionProcessor(IRepository<Infrastructure.DbEntities.Transaction> repository, ILogger<TransactionProcessor> logger , IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
+            _mapper = mapper;   
         }
 
         public async Task ProcessTransactionsAsync(IEnumerable<Transaction> transactions)
@@ -33,7 +36,11 @@ namespace FinancialAnalyticsProcessor.Application.Services
                 var transactionCount = transactions.Count();
                 _logger.LogInformation("Processing {TransactionCount} transactions.", transactionCount);
 
-                await _repository.BulkInsertAsync(transactions);
+                //TODO Validate transactions using fleunt validations 
+
+                var transactionsTobeSaved = _mapper.Map<IEnumerable<Infrastructure.DbEntities.Transaction>>(transactions);
+
+                await _repository.BulkInsertAsync(transactionsTobeSaved);
 
                 _logger.LogInformation("Successfully processed {TransactionCount} transactions.", transactionCount);
             }

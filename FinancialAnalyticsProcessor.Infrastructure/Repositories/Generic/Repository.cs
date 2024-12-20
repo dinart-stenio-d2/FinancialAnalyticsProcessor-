@@ -16,6 +16,7 @@ namespace FinancialAnalyticsProcessor.Infrastructure.Repositories.Generic
         public Repository(TransactionDbContext context, ILogger<Repository<T>> logger)
         {
             _context = context;
+            _dbSet = context.Set<T>();
             _logger = logger;
         }
 
